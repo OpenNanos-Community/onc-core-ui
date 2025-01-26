@@ -1,6 +1,6 @@
 import "./App.css";
-import heartbeat from "./assets/heartbeat.svg";
-import armor from "./assets/shield.svg";
+import heartbeat from "../public/assets/heartbeat.svg";
+import armor from "../public/assets/shield.svg";
 
 function App() {
   return (
