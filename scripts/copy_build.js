@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const sourceDir = path.join(__dirname, "../dist");
 const destinationDir =
-  "E:\\SteamLibrary\\steamapps\\common\\nanos-world\\Server\\Packages\\simple-load";
+  "path/to/onc_core/ui/folder";
 
 const blacklist = ["Package.toml"];
 
