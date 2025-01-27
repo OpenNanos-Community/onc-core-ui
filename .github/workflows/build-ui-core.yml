@@ -10,26 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Source Repository
-      uses: actions/checkout@v3
+      - name: Checkout Source Repository
+        uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        npm ci
-        npm run build
+      - name: Install dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm ci
+          npm run build
 
-    - name: Deploy to Target Repository
-      env:
-        TARGET_REPO: "OpenNanos-Community/onc-core"
-        TARGET_BRANCH: "certurix/ui"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git clone --depth 1 https://x-access-token:${GITHUB_TOKEN}@github.com/$TARGET_REPO target-repo
-        cd target-repo
+      - name: Deploy to Target Repository
+        env:
+          TARGET_REPO: "OpenNanos-Community/onc-core"
+          TARGET_BRANCH: "certurix/ui"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone --depth 1 https://x-access-token:${GITHUB_TOKEN}@github.com/$TARGET_REPO target-repo
+          cd target-repo
 
-        rm -rf ./*
-        cp -r ../dist/* ./
+          rm -rf ./*
+          cp -r ../dist/* ./
 
-        git add .
-        git commit -m "CI: Deploy UI to Core"
-        git push origin $TARGET_BRANCH
+          git add .
+          git commit -m "CI: Deploy UI to Core"
+          git push origin $TARGET_BRANCH
