@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules package-lock.json
-          npm ci
+          npm i
           npm run build
 
       - name: Deploy to Target Repository
