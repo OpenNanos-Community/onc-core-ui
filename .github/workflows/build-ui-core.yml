@@ -1,4 +1,4 @@
-name: Build + Deploy UI to Core
+name: Build and Deploy UI to Core
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
@@ -21,22 +20,67 @@ jobs:
 
       - name: Install dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm i
+          npm ci
           npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Checkout Target Repository
+        uses: actions/checkout@v3
+        with:
+          repository: OpenNanos-Community/onc-core
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: target-repo
+          fetch-depth: 0  # Récupère l'historique pour manipuler la branche
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: ./dist
 
       - name: Deploy to Target Repository
         env:
-          TARGET_REPO: "OpenNanos-Community/onc-core"
           TARGET_BRANCH: "certurix/ui"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git clone --depth 1 https://x-access-token:${GITHUB_TOKEN}@github.com/$TARGET_REPO target-repo
           cd target-repo
 
-          rm -rf ./*
-          cp -r ../dist/* ./
+          # Vérifier si la branche existe, sinon la créer
+          if git rev-parse --verify origin/$TARGET_BRANCH >/dev/null 2>&1; then
+            git checkout $TARGET_BRANCH
+          else
+            git checkout -b $TARGET_BRANCH
+          fi
 
-          git add .
-          git commit -m "CI: Deploy UI to Core"
+          # Créer le dossier cible s'il n'existe pas
+          mkdir -p Client/UI
+
+          # Supprimer uniquement les fichiers existants dans Client/UI
+          rm -rf Client/UI/*
+
+          # Copier le nouveau build dans Client/UI
+          cp -r ../dist/* Client/UI/
+
+          # Vérifier s'il y a des changements avant de commit
+          if git diff --staged --quiet; then
+            echo "Aucune modification à commit, fin du job."
+            exit 0
+          fi
+
+          git add Client/UI/*
+          git commit -m "CI: Deploy UI build to Client/UI"
           git push origin $TARGET_BRANCH
