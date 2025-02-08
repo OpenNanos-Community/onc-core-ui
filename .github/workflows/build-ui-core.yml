@@ -20,11 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          rm -rf node_modules package-lock.json
+          npm i
           npm run build
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./dist
@@ -45,7 +46,6 @@ jobs:
           repository: OpenNanos-Community/onc-core
           token: ${{ secrets.GITHUB_TOKEN }}
           path: target-repo
-          fetch-depth: 0  # Récupère l'historique pour manipuler la branche
 
       - name: Download Build Artifacts
         uses: actions/download-artifact@v3
@@ -55,32 +55,16 @@ jobs:
 
       - name: Deploy to Target Repository
         env:
+          TARGET_REPO: "OpenNanos-Community/onc-core"
           TARGET_BRANCH: "certurix/ui"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd target-repo
 
-          # Vérifier si la branche existe, sinon la créer
-          if git rev-parse --verify origin/$TARGET_BRANCH >/dev/null 2>&1; then
-            git checkout $TARGET_BRANCH
-          else
-            git checkout -b $TARGET_BRANCH
-          fi
+          git checkout $TARGET_BRANCH || git checkout -b $TARGET_BRANCH
+          rm -rf ./*
+          cp -r ../dist/* ./
 
-          # Créer le dossier cible s'il n'existe pas
-          mkdir -p Client/UI
-
-          # Supprimer uniquement les fichiers existants dans Client/UI
-          rm -rf Client/UI/*
-
-          # Copier le nouveau build dans Client/UI
-          cp -r ../dist/* Client/UI/
-
-          # Vérifier s'il y a des changements avant de commit
-          if git diff --staged --quiet; then
-            echo "Aucune modification à commit, fin du job."
-            exit 0
-          fi
-
-          git add Client/UI/*
-          git commit -m "CI: Deploy UI build to Client/UI"
+          git add .
+          git commit -m "CI: Deploy UI to Core"
           git push origin $TARGET_BRANCH
