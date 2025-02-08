@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: OpenNanos-Community/onc-core
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           path: target-repo
 
       - name: Download Build Artifacts
@@ -57,7 +57,7 @@ jobs:
         env:
           TARGET_REPO: "OpenNanos-Community/onc-core"
           TARGET_BRANCH: "certurix/ui"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           cd target-repo
 
