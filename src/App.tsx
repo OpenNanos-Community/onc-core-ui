@@ -4,6 +4,7 @@ import armor from "../public/assets/shield.svg";
 import hunger from "../public/assets/hamburger.svg";
 import thirst from "../public/assets/bottle.svg";
 import stamina from "../public/assets/run.svg";
+import money from "../public/assets/money.svg";
 
 function App() {
   return (
@@ -40,6 +41,15 @@ function App() {
                   style={{ width: "50%" }}
                 ></div>
               </div>
+            </div>
+            {/* Money Display */}
+            <div className="flex flex-col justify-evenly w-full md:w-60">
+                <div className="flex items-center bg-app-bg p-1 rounded-full mb-2">
+                <span className="text-xl ml-2">$1000</span>
+                <div className="icon ml-auto mr-2">
+                  <img src={money} alt="Money" className="w-6 h-6" />
+                </div>
+                </div>
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-5 md:gap-10">
