@@ -5,6 +5,7 @@ import hunger from "../public/assets/hamburger.svg";
 import thirst from "../public/assets/bottle.svg";
 import stamina from "../public/assets/run.svg";
 import money from "../public/assets/money.svg";
+import user from "../public/assets/user.svg";
 
 function App() {
   return (
@@ -41,9 +42,18 @@ function App() {
             {/* Money Display */}
             <div className="flex flex-col justify-evenly w-full md:w-60 shrink-0">
               <div className="flex items-center bg-app-bg p-1 rounded-full mb-2">
-                <span className="text-xl ml-2">$1000</span>
-                <div className="icon ml-auto mr-2">
+                <span className="text-xl ml-2 truncate w-screen tracking-wider">{new Intl.NumberFormat("en-en", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(18524700)}</span>
+                <div className="icon ml-auto mr-2 flex justify-end w-full">
                   <img src={money} alt="Money" className="w-6 h-6" />
+                </div>
+              </div>
+            </div>
+            {/* Name Display */}
+            <div className="flex flex-col justify-evenly w-full md:w-60 shrink-0">
+              <div className="flex items-center bg-app-bg p-1 rounded-full mb-2">
+                <span className="text-xl ml-2 truncate w-screen">John Doe</span>
+                <div className="icon ml-auto mr-2 flex justify-end w-full">
+                  <img src={user} alt="Money" className="w-6 h-6" />
                 </div>
               </div>
             </div>
