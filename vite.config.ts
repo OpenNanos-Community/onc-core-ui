@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from '@tailwindcss/vite'
 import {viteSingleFile} from "vite-plugin-singlefile";
@@ -11,4 +12,9 @@ export default defineConfig({
     assetsDir: "src",
     minify: false
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
 });
