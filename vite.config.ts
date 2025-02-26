@@ -10,7 +10,7 @@ export default defineConfig({
   base: "./",
   build: {
     assetsDir: "src",
-    minify: false
+    minify: true
   },
   resolve: {
     alias: {
