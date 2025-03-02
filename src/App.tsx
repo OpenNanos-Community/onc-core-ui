@@ -1,5 +1,6 @@
 import './App.css';
 import Base from '@/modules/base/Base';
+import CharacterCreator from '@/modules/character-creator/CharacterCreator';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
           <Base />
         </div>
       </div>
+        <CharacterCreator />
     </>
   );
 }
