@@ -1,6 +1,18 @@
+type Events = {
+    'ONC::UpdateAmmo': [number, number];
+    'ONC::UpdateHealth': [number];
+    'ONC::UpdateArmor': [number];
+    'ONC::UpdateMoney': [number];
+    'ONC::UpdateName': [string];
+    'ONC::UpdateHunger': [number];
+    'ONC::UpdateThirst': [number];
+    'ONC::UpdateStamina': [number];
+    'ONC::CreateCharacter': [string, string, string];
+};
+
 interface EventsType {
-    Call: (sEventName: string, ...args: any[]) => void;
-    Subscribe: (sEventName: string, callback: (...args: any[]) => void) => void;
+    Call<K extends keyof Events>(sEventName: K, ...args: Events[K]): void;
+    Subscribe<K extends keyof Events>(sEventName: K, callback: (...args: Events[K]) => void): void;
 }
 
 declare global {
