@@ -55,7 +55,7 @@ const CharacterCreator: React.FC = () => {
             className="w-full p-2 border border-app-text rounded bg-app-bg text-app-text scheme-dark"
           />
         </div>
-        <button type="submit" className="w-full p-2 bg-app-text rounded hover:bg-app-text-hover text-app-bg">Create Character</button>
+        <button type="submit" className="w-full p-2 bg-app-text rounded hover:bg-white hover:cursor-pointer text-app-bg">Create Character</button>
       </form>
     </div>
   );
