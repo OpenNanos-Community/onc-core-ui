@@ -4,6 +4,7 @@ import Armor from './ui/Armor';
 import Money from './ui/Money';
 import Name from './ui/Name';
 import Bars from './ui/Bars';
+import Ammo from './ui/Ammo';
 
 
 const Base: React.FC = () => {
@@ -18,6 +19,7 @@ const Base: React.FC = () => {
           <Name />
         </div>
         <Bars />
+        <Ammo />
       </div>
     );
   };
