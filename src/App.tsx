@@ -7,6 +7,7 @@ import { IStaticMethods } from "flyonui/flyonui";
 import "./App.css";
 import Base from "@/modules/base/Base";
 import CharacterCreator from "@/modules/character-creator/CharacterCreator";
+import Scoreboard from "@/modules/scoreboard/Scoreboard";
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ function App() {
   return (
     <>
       <Base />
+      <Scoreboard />
       <CharacterCreator />
     </>
   );
