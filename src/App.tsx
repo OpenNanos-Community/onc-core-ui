@@ -1,18 +1,42 @@
-import './App.css';
-import Base from '@/modules/base/Base';
-import CharacterCreator from '@/modules/character-creator/CharacterCreator';
+import { BrowserRouter as Router } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import { IStaticMethods } from "flyonui/flyonui";
+
+import "./App.css";
+import Base from "@/modules/base/Base";
+import CharacterCreator from "@/modules/character-creator/CharacterCreator";
+
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const loadFlyonui = async () => {
+      await import("flyonui/flyonui");
+      window.HSStaticMethods.autoInit();
+    };
+    loadFlyonui();
+  }, [location.pathname]);
+
   return (
     <>
-      <div className="hud-container">
-        <div className="flex flex-col md:flex-row px-5 md:px-10 py-5 md:py-10 text-app-text font-inter font-bold">
-          <Base />
-        </div>
-      </div>
-        <CharacterCreator />
+      <Base />
+      <CharacterCreator />
     </>
   );
 }
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
