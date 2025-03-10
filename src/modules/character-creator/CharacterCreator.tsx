@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import Events from '@/Events';
 
 const CharacterCreator: React.FC = () => {
+  const [show, setShow] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  Events.Subscribe("ONC::ToggleCharacterCreator", () => {
+    setShow((prevShow) => !prevShow);
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
 
     Events.Call('ONC::CreateCharacter', firstName, lastName, dob);
-    setIsSubmitted(true);
+    setShow(false);
   };
 
-  if (isSubmitted) {
+  if (!show) {
     return null;
   }
 
