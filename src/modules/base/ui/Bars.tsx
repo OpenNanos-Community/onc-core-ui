@@ -27,7 +27,7 @@ const Bars: React.FC = () => {
     <div className="flex flex-col md:flex-row gap-3 md:gap-6 shrink-0">
       <div className="flex items-center">
         <div className="relative flex items-center w-3 h-20 bg-app-bg rounded-full shrink-0">
-          <div className="absolute bottom-0 bg-app-hunger w-3 rounded-full" style={{ height: `${hunger}` }}></div>
+          <div className="absolute bottom-0 bg-app-hunger w-3 rounded-full" style={{ height: `${hunger}`, transition: 'height 1s'  }}></div>
         </div>
         <div className="flex items-center justify-center h-20 ml-2">
           <img src={hungerIcon} alt="Hunger" className="w-6 h-6" />
@@ -35,7 +35,7 @@ const Bars: React.FC = () => {
       </div>
       <div className="flex items-center">
         <div className="relative flex items-center w-3 h-20 bg-app-bg rounded-full shrink-0">
-          <div className="absolute bottom-0 bg-app-thirst w-3 rounded-full" style={{ height: `${thirst}` }}></div>
+          <div className="absolute bottom-0 bg-app-thirst w-3 rounded-full" style={{ height: `${thirst}`, transition: 'height 1s'  }}></div>
         </div>
         <div className="flex items-center justify-center h-20 ml-2">
           <img src={thirstIcon} alt="Thirst" className="w-6 h-6" />
@@ -43,7 +43,7 @@ const Bars: React.FC = () => {
       </div>
       <div className="flex items-center">
         <div className="relative flex items-center w-3 h-20 bg-app-bg rounded-full shrink-0">
-          <div className="absolute bottom-0 bg-app-text w-3 rounded-full" style={{ height: `${stamina}` }}></div>
+          <div className="absolute bottom-0 bg-app-text w-3 rounded-full" style={{ height: `${stamina}`, transition: 'height 1s'  }}></div>
         </div>
         <div className="flex items-center justify-center h-20 ml-2">
           <img src={staminaIcon} alt="Stamina" className="w-6 h-6" />

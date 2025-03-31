@@ -20,7 +20,7 @@ const Health: React.FC = () => {
         <span className="text-xl ml-auto self-end">{health}%</span>
       </div>
       <div className="w-full bg-app-bg rounded-full h-2.5">
-        <div className="bg-app-health h-2.5 rounded-full" style={{ width: `${health}%` }}></div>
+        <div className="bg-app-health h-2.5 rounded-full" style={{ width: `${health}%`, transition: 'width 1s' }}></div>
       </div>
     </div>
   );
