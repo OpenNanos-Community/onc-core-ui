@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import moneyIcon from '@/assets/money.svg';
 import Events from '@/Events';
 
 const Money: React.FC = () => {
-  const [money, setMoney] = React.useState(0);
-  Events.Subscribe("ONC::UpdateMoney", (money: number) => {
-    setMoney(money);
-  });
+  const [money, setMoney] = useState(0);
+
+  useEffect(() => {
+    Events.Subscribe("ONC::UpdateMoney", (money: number) => {
+      setMoney(money);
+    });
+  }, []);
 
   return (
     <div className="flex flex-col justify-evenly w-full md:w-60 shrink-0">
