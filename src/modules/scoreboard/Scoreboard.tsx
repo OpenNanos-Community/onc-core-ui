@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Events from "@/Events";
 import { Player } from "@/types/Player";
 import { Icon } from "@iconify/react";
@@ -14,25 +14,27 @@ const Scoreboard: React.FC = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [serverName, setServerName] = useState<string>("Server Name");
 
-  Events.Subscribe("ONC::ToggleScoreboard", (shouldShow: boolean) => {
-    setShow(shouldShow);
-  });
-
-  Events.Subscribe("ONC::InitScoreboard", (serverName: string) => {
-    setServerName(serverName);
-  });
-
-  Events.Subscribe("ONC::UpdatePlayerScoreboard", (id: number, name: string, rank: string, job: string, avatar: string, ping: number) => {
-    const updatedPlayer = { id, name, rank, job, avatar, ping };
-    setPlayers((prevPlayers) => {
-      const index = prevPlayers.findIndex((p) => p.id === id);
-      if (index === -1) {
-        return [...prevPlayers, updatedPlayer];
-      }
-
-      return prevPlayers.map((p) => (p.id === id ? updatedPlayer : p));
+  useEffect(() => {
+    Events.Subscribe("ONC::ToggleScoreboard", (shouldShow: boolean) => {
+      setShow(shouldShow);
     });
-  });
+
+    Events.Subscribe("ONC::InitScoreboard", (serverName: string) => {
+      setServerName(serverName);
+    });
+
+    Events.Subscribe("ONC::UpdatePlayerScoreboard", (id: number, name: string, rank: string, job: string, avatar: string, ping: number) => {
+      const updatedPlayer = { id, name, rank, job, avatar, ping };
+      setPlayers((prevPlayers) => {
+        const index = prevPlayers.findIndex((p) => p.id === id);
+        if (index === -1) {
+          return [...prevPlayers, updatedPlayer];
+        }
+
+        return prevPlayers.map((p) => (p.id === id ? updatedPlayer : p));
+      });
+    });
+  }, []); 
 
   if (!show) {
     return null;
