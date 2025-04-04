@@ -9,6 +9,7 @@ interface Player {
 
 type Events = {
   "ONC::UpdateAmmo": [number, number];
+  "ONC::ShowAmmo": [boolean];
   "ONC::UpdateHealth": [number];
   "ONC::UpdateArmor": [number];
   "ONC::UpdateMoney": [number];
